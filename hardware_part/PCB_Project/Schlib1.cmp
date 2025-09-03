@@ -1,0 +1,28 @@
+Component Name : LCD
+
+Part Count : 3
+
+Part : LCD
+     Pins - (Normal) : 0
+          Hidden Pins : 
+
+Part : LCD
+     Pins - (Normal) : 0
+          Hidden Pins : 
+
+Part : LCD
+     Pins - (Normal) : 12
+          5              0              Passive
+          5              1              Passive
+          5              2              Passive
+          5              3              Passive
+          5              4              Passive
+          5              5              Passive
+          5              6              Passive
+          5              7              Passive
+          5              8              Passive
+          5              9              Passive
+          5              10             Passive
+          5              11             Passive
+          Hidden Pins : 
+
