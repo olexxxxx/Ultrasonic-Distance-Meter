@@ -67,7 +67,7 @@ GenerateClassCluster=0
 DocumentUniqueId=RGPTFVYX
 
 [Document2]
-DocumentPath=Sheet2.SchDoc
+DocumentPath=Sheet.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
 AnnotationIndexControlEnabled=0
@@ -98,7 +98,7 @@ ClassGenCCAutoRoomEnabled=0
 ClassGenNCAutoScope=None
 DItemRevisionGUID=
 GenerateClassCluster=0
-DocumentUniqueId=
+DocumentUniqueId=QERTWYIW
 
 [Document4]
 DocumentPath=ajax_ultrasonic_meter.OutJob
