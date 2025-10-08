@@ -118,6 +118,14 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [GeneratedDocument1]
+DocumentPath=Project Outputs for ajax_ultrasonic_meter\Design Rule Check - PCB1.html
+DItemRevisionGUID=
+
+[GeneratedDocument2]
+DocumentPath=Project Outputs for ajax_ultrasonic_meter\Move Component(s) Origin To Grid - PCB1.html
+DItemRevisionGUID=
+
+[GeneratedDocument3]
 DocumentPath=Schlib1.cmp
 DItemRevisionGUID=
 
