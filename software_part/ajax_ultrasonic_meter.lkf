@@ -1,0 +1,35 @@
+# LINK COMMAND FILE FOR STM8S003
+# Адаптовано для VS Code build
+
+# 1. Налаштування сегментів (Пам'ять)
++seg .const -b 0x8080 -m 0x1f80 -n .const -it
++seg .text  -a .const           -n .text
++seg .eeprom -b 0x4000 -m 0x280 -n .eeprom
++seg .bsct   -b 0x0    -m 0x100 -n .bsct
++seg .ubsct  -a .bsct           -n .ubsct
++seg .bit    -a .ubsct          -n .bit   -id
++seg .share  -a .bit            -n .share -is
++seg .data   -b 0x100  -m 0x100 -n .data
++seg .bss    -a .data           -n .bss
+
+# 2. Startup файл (Системний запуск)
+crtsi0.sm8
+
+# 3. ВАШІ ОБ'ЄКТНІ ФАЙЛИ (Ось чого не вистачало!)
+# Лінкер шукатиме їх у папці Debug відносно цього файлу
+Debug\main.o
+Debug\stm8_interrupt_vector.o
+
+# 4. Бібліотеки (Математика та системні регістри)
+libis0.sm8
+libm0.sm8
+
+# 5. Вектори переривань (Мають бути за адресою 0x8000)
++seg .const -b 0x8000 -k
+
+# 6. Системні визначення (Кінець RAM/Стеку)
++def __endzp=@.ubsct
++def __memory=@.bss
++def __startmem=@.bss
++def __endmem=0x1ff
++def __stack=0x3ff

@@ -1,0 +1,21 @@
+{
+    "configurations": [
+        {
+            "name": "STM8 Cosmic",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/drivers/inc",
+                "${workspaceFolder}/registers_include",
+                "C:\\Program Files (x86)\\COSMIC\\FSE_Compilers\\CXSTM8\\Hstm8"
+            ],
+            "defines": [
+                "STM8S003",
+                "__CSMC__"
+            ],
+            "compilerPath": "",
+            "cStandard": "c99",
+            "intelliSenseMode": "gcc-x86"
+        }
+    ],
+    "version": 4
+}

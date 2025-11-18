@@ -1,0 +1,10 @@
+Board Information Report
+Filename     : C:\Users\lenovo\Desktop\ajax_ultrasonic_meter\hardware_part\PCB1.PcbDoc
+Date         : 04.11.2025
+Time         : 23:14:49
+Time Elapsed : 00:00:00
+
+General
+    Board Size, 85.0326mmx95mm
+    Components on board, 60
+count : 2
