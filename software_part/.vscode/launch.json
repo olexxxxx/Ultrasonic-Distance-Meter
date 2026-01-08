@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+
+
+        {
+            "name": "STM8 Debug",
+            "type": "stm8-debug",
+            "request": "launch",
+            "serverType": "stm8-sdcc",
+            
+            "executable": "${workspaceFolder}//Debug//main.elf",
+            "cpu": "STM8S103F3P",
+            "svdFile": "${workspaceFolder}/.vscode/stm8s103f3.svd.json",
+            "runToMain": false,
+            "openOcdConfigs": [
+                "C://tools/xpack-openocd-0.12.0-7//openocd//scripts//interface//stlink-v2.cfg",
+                "C://tools/xpack-openocd-0.12.0-7//openocd//scripts//target//stm8s103.cfg"
+            ]
+
+        }
+    ]
+}

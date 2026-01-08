@@ -9,11 +9,15 @@
                 "C:\\Program Files (x86)\\COSMIC\\FSE_Compilers\\CXSTM8\\Hstm8"
             ],
             "defines": [
-                "STM8S003",
+                "STM8S103",
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE",
+                "_COSMIC_",
                 "__CSMC__"
             ],
             "compilerPath": "",
-            "cStandard": "c99",
+            "cStandard": "c89",
             "intelliSenseMode": "gcc-x86"
         }
     ],

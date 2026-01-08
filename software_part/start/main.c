@@ -1,45 +1,88 @@
 #include "stm8s.h"
+#include "sys_clk.h"
+#include "delays.h"
+#include "tm1637.h"
+#include "hc_sr04.h"
+#include <stdio.h>
+#include "adc.h"
+#include "buttons.h"
+#include "indication.h"
+#include "shift_register.h"
 
-/* * HARDWARE DEFINITION
- * Для STM8S103F3P6 "Minimum System Board" світлодіод знаходиться на PB5.
- * Якщо у тебе кастомна плата і там точно PA5 - поверни GPIOA.
- */
-#define LED_PORT    GPIOB
-#define LED_PIN     5
-
-/* * DELAY FUNCTION
- * Використовує inline assembly nop для запобігання видаленню циклу оптимізатором.
- */
-void delay(unsigned long count) {
-    while (count--) {
-        _asm("nop");
-    }
-}
 
 int main(void) {
-    // 1. CLOCK INITIALIZATION
-    // Регістр CKDIVR (Clock Divider Register).
-    // 0x00 означає HSI = 16 MHz, CPU = 16 MHz.
-    // За замовчуванням там 0x18 (CPU = 2 MHz), що може впливати на розрахунок затримок.
-    CLK->CKDIVR = 0x00;
-
-    // 2. GPIO CONFIGURATION
-    // DDR (Data Direction): 1 = Output
-    LED_PORT->DDR |= (1 << LED_PIN);
+    uint16_t raw_distance;
+    uint16_t distance;
+    unsigned long adc_measurement;
+    char buf[5];
     
-    // CR1 (Control Register 1): 1 = Push-Pull Output
-    // (У режимі Output 0 означає Open Drain, що для LED може не підійти без підтяжки)
-    LED_PORT->CR1 |= (1 << LED_PIN);
-    
-    // CR2 (Control Register 2): 1 = Output speed up to 10 MHz
-    LED_PORT->CR2 |= (1 << LED_PIN);
+    enable_system_clock();
+    timers_for_delay_enable();
+    tm_gpio_init();
+    tm_set_brightness(5);
+    tm_display_digits("8888");
+    pd2_adc_init();
+    hcsr04_gpio_init();
+    indication_init();
 
-    // 3. MAIN LOOP
-    while(1) {
-        // Toggle bit using XOR
-        LED_PORT->ODR ^= (1 << LED_PIN);
-        
-        // Затримка. При 16 МГц значення 400000 дасть видиме оку перемикання.
-        delay(100000);
+
+    
+    while (1) {
+        adc_start_conversion();
+        adc_measurement = adc_read();
+        current_button = button_choose(adc_measurement);
+        switch (current_state) {
+                case STATE_MEASURE:
+                    switch(current_button){
+                        case BTN_MODE:
+                            units = !units;
+                            break;
+                        case BTN_UP:
+                            current_state = STATE_SETUP;
+                            break;
+                        case BTN_DOWN:
+                            current_state = STATE_SETUP;
+                            break;
+                        default:
+                            raw_distance = hcsr04_measure_pulse(TIMEOUT_US);
+                             
+                            if (units == 1) {
+                            distance = hcsr04_convert_to_cm(raw_distance);
+                            } else {
+                            distance = hcsr04_convert_to_inch(raw_distance);
+                            }
+
+                            if (raw_distance == 0) {
+                             tm_display_digits("----");
+                            } else {
+                                sprintf(buf, "%4d", distance);
+                                tm_display_digits(buf);
+                            }
+                            
+                            _delay_ms(65);
+                    }
+                    
+                    break;            
+                case STATE_SETUP:
+                    shift_reg_send(0xFF);
+                        show_threshold(threshold_val);
+                        _delay_ms(100);
+                    switch(current_button){
+                            case BTN_MODE:
+                            current_state = STATE_MEASURE;
+                            break;
+                        case BTN_UP:
+                            threshold_val = (threshold_val < 400) ? threshold_val + 10 : 400;
+                            break;
+                        case BTN_DOWN:
+                            if (threshold_val >= 10) threshold_val -= 10;
+                            else threshold_val = 0; // Вимкнено
+                            break;
+                        default:
+                            show_threshold(threshold_val);
+                            break;
+                    }
+            }
     }
+    return 0;
 }

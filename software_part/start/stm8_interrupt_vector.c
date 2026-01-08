@@ -19,6 +19,7 @@ struct interrupt_vector {
 
 extern void _stext();     /* startup routine */
 
+
 struct interrupt_vector const _vectab[] = {
 	{0x82, (interrupt_handler_t)_stext}, /* reset */
 	{0x82, NonHandledInterrupt}, /* trap  */
