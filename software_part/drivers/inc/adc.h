@@ -2,7 +2,10 @@
 #define ADC_H
 #include "stm8s.h"
 
-
+#define ADC1_CHANNEL_3   (uint8_t)0x03
+#define ADC1_CR2_ALIGN   ((uint8_t)0x08)
+#define ADC1_CR1_ADON    ((uint8_t)0x01)
+#define ADC1_CSR_EOC     ((uint8_t)0x80)
 
 // Ідентифікатори кнопок (залежать від напруги)
 typedef enum {

@@ -1,3 +1,4 @@
+
 #include "stm8s.h"
 #include "sys_clk.h"
 #include "delays.h"
@@ -17,7 +18,7 @@ int main(void) {
     char buf[5];
     
     enable_system_clock();
-    timers_for_delay_enable();
+    enable_timers_for_delay();
     tm_gpio_init();
     tm_set_brightness(5);
     tm_display_digits("8888");
@@ -58,13 +59,12 @@ int main(void) {
                                 sprintf(buf, "%4d", distance);
                                 tm_display_digits(buf);
                             }
-                            
+                            start_indicate(units, threshold_val, raw_distance);
                             _delay_ms(65);
                     }
                     
                     break;            
                 case STATE_SETUP:
-                    shift_reg_send(0xFF);
                         show_threshold(threshold_val);
                         _delay_ms(100);
                     switch(current_button){

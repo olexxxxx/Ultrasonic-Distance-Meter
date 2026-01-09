@@ -1,6 +1,6 @@
 #include "delays.h"
 
-void timers_for_delay_enable(void){
+void enable_timers_for_delay(void){
     TIM4->PSCR = TIM4_PRESCALER_1; 
     TIM4->ARR = ((16000000L)/1000000) - 1;
     TIM4->CR1 = TIM4_CR1_CEN; 

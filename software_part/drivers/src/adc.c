@@ -10,9 +10,9 @@ uint8_t button_pressed_flag = 0;
 
 void pd2_adc_init(void){
 // Set up ADC
-	ADC1->CSR |= ADC1_CHANNEL_3; // Select channel to read
-	ADC1->CR2 = ADC1_CR2_ALIGN; // Place LSB in lower register
-	ADC1->CR1 = ADC1_CR1_ADON; // Power on the ADC
+	ADC1->CSR |= 	ADC1_CHANNEL_3; // Select channel to read
+	ADC1->CR2 = 	ADC1_CR2_ALIGN; // Place LSB in lower register
+	ADC1->CR1 = 	ADC1_CR1_ADON; // Power on the ADC
 }
 
 void adc_start_conversion(void){
