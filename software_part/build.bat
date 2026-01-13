@@ -10,11 +10,16 @@ SET OUT_DIR=Debug
 SET TARGET=main
 SET LKF_FILE=%OUT_DIR%\%TARGET%.lkf
 
-REM Source folders
-SET SOURCE_DIRS=start drivers\src
+REM Base include folders (always needed)
+SET INCLUDE_FLAGS=-i"%COMPILER_PATH%\Hstm8" -i"platform_dependencies\registers_include"
 
-REM Include folders
-SET INCLUDE_FLAGS=-i"%COMPILER_PATH%\Hstm8" -i"drivers\inc" -i"registers_include"
+REM Auto-discover all include folders (folders with .h files)
+echo Discovering include directories...
+for /f "delims=" %%D in ('dir /S /B /AD ^| findstr /V /I "Debug \.git"') do (
+    if exist "%%D\*.h" (
+        SET INCLUDE_FLAGS=!INCLUDE_FLAGS! -i"%%D"
+    )
+)
 
 REM ==========================================
 REM      PREPARATION
@@ -27,23 +32,25 @@ echo ==========================================
 echo [1/5] Compiling Source Files...
 echo ==========================================
 
-REM 1. Compile ALL files
-for %%D in (%SOURCE_DIRS%) do (
-    if exist %%D\*.c (
-        for %%F in (%%D\*.c) do (
-            echo Compiling %%F...
-            "%COMPILER_PATH%\cxstm8" +mods0 +debug -no %INCLUDE_FLAGS% -cl%OUT_DIR% -co%OUT_DIR% "%%F"
-            if !errorlevel! neq 0 goto error
-        )
-    )
+REM Compile ALL .c files recursively (except interrupt vectors)
+for /f "delims=" %%F in ('dir /S /B *.c ^| findstr /V /I "Debug stm8_interrupt_vector.c"') do (
+    echo Compiling %%F...
+    "%COMPILER_PATH%\cxstm8" +mods0 +debug -no %INCLUDE_FLAGS% -cl%OUT_DIR% -co%OUT_DIR% "%%F"
+    if !errorlevel! neq 0 goto error
+)
+
+REM Compile interrupt vectors separately
+for /f "delims=" %%F in ('dir /S /B stm8_interrupt_vector.c 2^>NUL') do (
+    echo Compiling interrupt vectors: %%F...
+    "%COMPILER_PATH%\cxstm8" +mods0 +debug -no %INCLUDE_FLAGS% -cl%OUT_DIR% -co%OUT_DIR% "%%F"
+    if !errorlevel! neq 0 goto error
 )
 
 echo ==========================================
 echo [2/5] Generating Linker Script...
 echo ==========================================
 
-REM 2. Generate LKF file
-REM Крок 1: Основна розмітка пам'яті (як у stm8_ex_edu.lkf)
+REM Generate LKF file
 (
     echo # LINK COMMAND FILE
     echo.
@@ -69,18 +76,12 @@ REM Крок 1: Основна розмітка пам'яті (як у stm8_ex_e
     echo # Object files list
 ) > "%LKF_FILE%"
 
-REM Крок 2: Додаємо всі файли КРІМ векторів
-for %%D in (%SOURCE_DIRS%) do (
-    if exist %%D\*.c (
-        for %%F in (%%D\*.c) do (
-            if "%%~nxF" neq "stm8_interrupt_vector.c" (
-                echo %OUT_DIR%\%%~nF.o >> "%LKF_FILE%"
-            )
-        )
-    )
+REM Add all object files EXCEPT interrupt vectors
+for /f "delims=" %%F in ('dir /S /B *.c ^| findstr /V /I "Debug stm8_interrupt_vector.c"') do (
+    echo %OUT_DIR%\%%~nF.o >> "%LKF_FILE%"
 )
 
-REM Крок 3: Бібліотеки та ВЕКТОРИ (Вектори суворо в кінці!)
+REM Add libraries and INTERRUPT VECTORS (vectors at the end!)
 (
     echo.
     echo # Library list

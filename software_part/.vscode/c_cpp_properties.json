@@ -4,8 +4,9 @@
             "name": "STM8 Cosmic",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/drivers/inc",
-                "${workspaceFolder}/registers_include",
+                "${workspaceFolder}/drivers/inc/**",
+                "${workspaceFolder}/platform_dependencies/registers_include",
+                "${workspaceFolder}/platform_dependencies/**",
                 "C:\\Program Files (x86)\\COSMIC\\FSE_Compilers\\CXSTM8\\Hstm8"
             ],
             "defines": [

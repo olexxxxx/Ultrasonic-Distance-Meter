@@ -1,6 +1,5 @@
 @echo off
-REM --- Налаштування ---
-REM Повний шлях до папки з stm8flash (згідно з твоїм скріном)
+
 SET TOOL_PATH=C:\tools\stm8flash
 SET FIRMWARE=Debug\main.ihx
 SET PART=stm8s103f3
