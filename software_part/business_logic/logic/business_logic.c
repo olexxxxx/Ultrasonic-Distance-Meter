@@ -51,6 +51,9 @@ void business_logic_loop(void){
  * - UNIT_CM
  * - threshold = 0 (індикація вимкнена)
  * 
+ * @param[in] None
+ * @retval None
+ * 
  * @note Викликається ОДИН РАЗ після hardware_init()
  * @note НЕ містить нескінченного циклу
  */
@@ -67,6 +70,9 @@ static void business_logic_init(void) {
  * 1. Читання кнопки
  * 2. Обробку поточного стану
  * 3. Оновлення виходів (дисплей, LED)
+ * 
+ * @param[in] None
+ * @retval None
  * 
  * @note Викликається циклічно з main loop
  * @note Час виконання: ~70 мс (STATE_MEASURE) або ~100 мс (STATE_SETUP)
@@ -93,6 +99,9 @@ static void business_logic_run(void) {
 
 /**
  * @brief Обробка стану MEASURE (вимірювання)
+ * 
+ * @param[in] button Ідентифікатор натиснутої кнопки
+ * @retval None
  */
 static void handle_measure_state(ButtonID button) {
     switch (button) {
@@ -118,6 +127,9 @@ static void handle_measure_state(ButtonID button) {
 
 /**
  * @brief Обробка стану SETUP (налаштування порогу)
+ * 
+ * @param[in] button Ідентифікатор натиснутої кнопки
+ * @retval None
  */
 static void handle_setup_state(ButtonID button) {
     update_threshold_display();
@@ -149,6 +161,9 @@ static void handle_setup_state(ButtonID button) {
 
 /**
  * @brief Виконання вимірювання відстані
+ * 
+ * @param[in] None
+ * @retval None
  */
 static void perform_distance_measurement(void) {
     uint16_t raw_time;
@@ -180,6 +195,9 @@ static void perform_distance_measurement(void) {
 
 /**
  * @brief Відображення порогу на дисплеї
+ * 
+ * @param[in] None
+ * @retval None
  */
 static void update_threshold_display(void) {
     uint16_t threshold_display = convert_threshold_to_current_unit();
@@ -189,7 +207,8 @@ static void update_threshold_display(void) {
 /**
  * @brief Зміна порогового значення
  * 
- * @param delta Зміна (може бути від'ємною)
+ * @param[in] delta Зміна порогу (може бути від'ємною)
+ * @retval None
  */
 static void adjust_threshold(int16_t delta) {
     int16_t new_threshold = (int16_t)app_state.threshold_cm + delta;
@@ -206,8 +225,8 @@ static void adjust_threshold(int16_t delta) {
 
 /**
  * @brief Конвертація порогу в поточну одиницю виміру
- * 
- * @return Порогове значення в поточних одиницях
+ * @param None
+ * @retval Порогове значення в поточних одиницях
  */
 static uint16_t convert_threshold_to_current_unit(void) {
     if (app_state.unit == UNIT_CM) {
@@ -222,7 +241,7 @@ static uint16_t convert_threshold_to_current_unit(void) {
  * @brief Конвертація відстані в поточну одиницю виміру
  * 
  * @param distance_cm Відстань в сантиметрах
- * @return Відстань в поточних одиницях
+ * @retval Відстань в поточних одиницях
  */
 static uint16_t convert_distance_to_current_unit(uint16_t distance_cm) {
     uint16_t raw_time;

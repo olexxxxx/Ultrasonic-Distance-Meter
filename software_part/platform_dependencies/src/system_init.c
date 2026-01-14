@@ -17,7 +17,7 @@
 
 #define TIM4_PRESCALER_1 ((uint8_t)0x00)
 
-//=============== INTERNAL FUNCTION PROTOTYPES ==========
+//=============== STATIC INTERNAL FUNCTION PROTOTYPES ==========
 
 static void enable_system_clock(void);
 static void enable_timers_for_delay(void);
@@ -41,13 +41,12 @@ void initialize_hardware(void){
 
 /**
 
-  * @brief Ініціалізація тактування системи
+  * @brief Ініціалізація тактування системи (Ініціалізація HSI, 16МГц)
 
   * @param None
 
   * @retval None
 
-  * @par HSI 16Mhz
 
   */
 static void enable_system_clock(void){
@@ -65,6 +64,9 @@ static void enable_system_clock(void){
  * Налаштовує TIM4 для створення мікросекундних затримок.
  * Таймер працює в режимі polling (без переривань).
  * 
+ * @param[in] None
+ * 
+ * @retval None
  * 
  * @note Функція ПРИВАТНА - викликається тільки з initialize_hardware()
  * 

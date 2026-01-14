@@ -52,9 +52,9 @@ void display_clear(void) {
  * 
  * @param[in] brightness Рівень яскравості (0-7)
  *                       Якщо > 7, буде обмежено до 7
- * 
- * @note Зміна яскравості відбувається миттєво
- * @note Яскравість не зберігається при вимкненні живлення
+ * @retval None
+ * @note   Зміна яскравості відбувається миттєво
+ * @note   Яскравість не зберігається при вимкненні живлення
  */
 
 static void display_set_brightness(uint8_t brightness) {

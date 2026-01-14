@@ -111,7 +111,7 @@ void uart1_tx_number(int32_t number) {
  * Блокуюча функція - чекає завершення передачі попереднього байта.
  * 
  * @param[in] data Байт для передачі
- * 
+ * @retval    None
  * @note Функція чекає на готовність передавача (TXE flag)
  * 
  * @see uart1_tx_string()

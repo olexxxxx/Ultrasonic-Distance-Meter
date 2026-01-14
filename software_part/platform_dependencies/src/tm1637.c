@@ -102,6 +102,9 @@ void tm1637_write_segments(const uint8_t *segments) {
  * 
  * Після START можна починати передачу байтів.
  * 
+ * @param[in] None
+ * @retval None
+ * 
  * @note Перед START обидва сигнали мають бути в HIGH
  * @note Після START контролер очікує команду або дані
  * 
@@ -126,6 +129,7 @@ static void tm1637_start(void) {
     TM1637_PORT->ODR &= ~TM1637_CLK_MASK;
     _delay_us(2);
 }
+
 /**
  * @brief Генерація сигналу STOP для протоколу TM1637
  * 
@@ -138,6 +142,9 @@ static void tm1637_start(void) {
  * - Затримка між станами: 2 мкс
  * 
  * Після STOP транзакція завершена, шина вільна.
+ * 
+ * @param[in] None
+ * @retval None
  * 
  * @note Після STOP можна починати нову транзакцію
  * @note STOP має викликатись після кожної послідовності команд
@@ -265,8 +272,10 @@ static uint8_t tm1637_write_byte(uint8_t data) {
 }
 
 /**
- * @brief Перевірка валідності введеного значення яскравості.
+ * @brief Перевірка валідності введеного значення яскравості
  * 
+ * @param[in] brightness Запитане значення яскравості (0-255)
+ * @retval uint8_t Валідне значення яскравості (0-7)
  */
 static uint8_t tm1637_check_brightness_boundary(uint8_t brightness){
         if (brightness > 7) {

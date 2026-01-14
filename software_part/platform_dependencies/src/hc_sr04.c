@@ -123,6 +123,10 @@ uint16_t hcsr04_measure_pulse(uint32_t timeout_us) {
  * 2. Затримка 10 мкс
  * 3. TRIG = LOW
  * 
+ * @param[in] None
+ * 
+ * @retval None
+ * 
  * @note Після виклику необхідно очікувати сигнал ECHO
  * 
  * @warning Не викликати повторно до завершення попереднього
@@ -149,6 +153,9 @@ static void hcsr04_send_trigger(void) {
  * - Роздільна здатність: 1 мкс
  * - Режим: Input Capture (захоплення фронтів)
  * - Auto-reload: максимум (65535 мкс)
+ * @param[in] None
+ * 
+ * @retval None
  * 
  * @note Викликається автоматично з hcsr04_gpio_init()
  * 
