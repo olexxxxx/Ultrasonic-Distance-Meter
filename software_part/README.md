@@ -39,7 +39,7 @@ SOFTWARE_PART/
 
 Структура взаємодії
 
-'''
+```
 [business_logic/logic] (Прикладний рівень та алгоритми керування)
 
                                     ⬇
@@ -57,4 +57,5 @@ SOFTWARE_PART/
                                     ⬇
 
 [platform_dependencies/registers_include] (Карта регістрів мікроконтролера)
-'''
+
+```
