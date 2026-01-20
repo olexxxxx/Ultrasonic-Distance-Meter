@@ -29,10 +29,6 @@ static uint16_t convert_distance_to_current_unit(uint16_t distance_cm);
 
 static void business_logic_init(void);
 static void business_logic_run(void);
-
-static void debounce(void);
-
-
 //============== PUBLIC FUNCTION IMPLEMENTATIONS ===============
 
 void business_logic_loop(void){
@@ -82,7 +78,7 @@ static void business_logic_init(void) {
  * @note Час виконання: ~70 мс (STATE_MEASURE) або ~100 мс (STATE_SETUP)
  */
 static void business_logic_run(void) {
-    ButtonID button = button_read();
+    ButtonID button = get_button_value();
     
     switch (app_state.state) {
         case STATE_MEASURE:
@@ -112,7 +108,6 @@ static void handle_measure_state(ButtonID button) {
         case BTN_MODE:
             /* Перемикання одиниць виміру */
             app_state.unit = (app_state.unit == UNIT_CM) ? UNIT_INCH : UNIT_CM;
-            debounce();
             break;
             
         case BTN_UP:
@@ -143,19 +138,16 @@ static void handle_setup_state(ButtonID button) {
         case BTN_MODE:
             /* Повернення до режиму вимірювання */
             app_state.state = STATE_MEASURE;
-            debounce();
             break;
             
         case BTN_UP:
             /* Збільшення порогу */
             adjust_threshold(THRESHOLD_STEP);
-            debounce();
             break;
             
         case BTN_DOWN:
             /* Зменшення порогу */
             adjust_threshold(-THRESHOLD_STEP);
-            debounce();
             break;
             
         case BTN_NONE:
@@ -262,12 +254,4 @@ static uint16_t convert_distance_to_current_unit(uint16_t distance_cm) {
     return distance_sensor_convert_to_inch(raw_time);
 }
 
-/**
- * @brief  Попереджує хибному спрацюванню натискання кнопки
- * @param  None
- * @retval None
- */
 
-static void debounce(void){
-    _delay_ms(DEBOUNCE_DELAY_MS);
-}

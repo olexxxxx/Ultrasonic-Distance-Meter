@@ -1,3 +1,10 @@
+/**
+ * @file    system_init.h
+ * @author  Olexandr Makedonskyi
+ * @brief   Функція для запуску та налаштування апаратної частини
+ * @date    13.01.2026
+ * @version 1.0
+*/
 #ifndef __SYSTEM_INIT_H
 #define __SYSTEM_INIT_H
 
